@@ -13,10 +13,26 @@ env:
   TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
   DJANGO_SETTINGS_MODULE: kittygram_backend.settings
   PYTHONPATH: ${{ github.workspace }}/backend
+  DATABASE_URL: postgres://kittygram_user:kittygram_password@localhost:5432/kittygram
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: kittygram_user
+          POSTGRES_PASSWORD: kittygram_password
+          POSTGRES_DB: kittygram
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v3
 
@@ -29,9 +45,11 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-            libjpeg-dev \ 
+            libjpeg8-dev \
             zlib1g-dev \
             libpng-dev \
+            postgresql-client \
+            postgresql \
             libpq-dev
 
       - name: Install Python dependencies
