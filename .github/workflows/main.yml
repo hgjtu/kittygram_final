@@ -117,7 +117,7 @@ jobs:
       - name: Build and push gateway
         uses: docker/build-push-action@v4
         with:
-          context: ./gateway
+          context: ./nginx
           push: true
           tags: ${{ env.DOCKER_USERNAME }}/kittygram_gateway:latest
 
