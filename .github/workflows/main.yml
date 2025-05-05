@@ -13,7 +13,12 @@ env:
   TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
   DJANGO_SETTINGS_MODULE: kittygram_backend.settings
   PYTHONPATH: ${{ github.workspace }}/backend
-  DATABASE_URL: postgres://kittygram_user:kittygram_password@localhost:5432/kittygram
+  DB_ENGINE: django.db.backends.postgresql
+  DB_NAME: kittygram
+  DB_USER: kittygram_user
+  DB_PASSWORD: kittygram_password
+  DB_HOST: localhost
+  DB_PORT: 5432
 
 jobs:
   test:
